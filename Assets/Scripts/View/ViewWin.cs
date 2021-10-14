@@ -33,6 +33,7 @@ public class ViewWin : MonoBehaviour
     /// </summary>
     public void InitData(int _ext2)
     {
+        Debug.Log("ViewWin InitData"+_ext2);
         type = _ext2;
         timeUpdate = 0;
         textTitle.text = type == 1 ? "Game Win" : "Game Lose";
@@ -41,13 +42,13 @@ public class ViewWin : MonoBehaviour
         if (type == 1)
         {
             int _time = (int)ViewController.GetInstance().game.GetComponent<ViewGame>().timePlay;
-            int _timeMin = 10;
+            int _timeMin = 10+GameController.GetInstance().currentLevel*5;
             numStar = 1;
             if (_time <= _timeMin)
             {
                 numStar = 3;
             }
-            else if (_time <= _timeMin * 2)
+            else if (_time <= _timeMin * 1.5F)
             {
                 numStar = 2;
             }
@@ -71,6 +72,7 @@ public class ViewWin : MonoBehaviour
         objRect.transform.localScale = Vector3.one * .2f;
         LeanTween.scale(objRect, Vector3.one, 0.2f).setLoopCount(1);
         //保存本地数据
+       
         LocalData.GetInstance().SaveLocalData();
         AudioManager.GetInstance().StopMusic();
     }
@@ -90,7 +92,7 @@ public class ViewWin : MonoBehaviour
                         {
                             imageStar0.gameObject.SetActive(true);
                             imageStar0.transform.localScale = Vector3.one * 4;
-                            LeanTween.scale(imageStar0.gameObject, Vector3.one, 0.2f).setLoopCount(1);
+                            LeanTween.scale(imageStar0.gameObject, Vector3.one*0.9f, 0.2f).setLoopCount(1);
                         }
                     }                        
                 }
@@ -114,7 +116,7 @@ public class ViewWin : MonoBehaviour
                         {
                             imageStar2.gameObject.SetActive(true);
                             imageStar2.transform.localScale = Vector3.one * 4;
-                            LeanTween.scale(imageStar2.gameObject, Vector3.one, 0.2f).setLoopCount(1);
+                            LeanTween.scale(imageStar2.gameObject, Vector3.one * 0.9f, 0.2f).setLoopCount(1);
                         }
                     }
                 }

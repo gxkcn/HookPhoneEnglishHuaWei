@@ -17,25 +17,21 @@ public class AudioManager : MonoBehaviour
 
 
     public const int SoundButtonClick = 0;
-    public const int SoundBoom = 17;
-    public const int SoundSave = 2;
-    public const int SoundHit0 = 3;
-    public const int SoundAddGold = 4;
-    public const int SoundReward = 5;
-    public const int SoundHit1 = 6;
+    public const int SoundClick0 = 1;
+    public const int SoundClick1 = 2;
+    public const int SoundClick2 = 3;
+    public const int SoundMove = 4;
+    public const int SoundMoveEnd = 5;
+    public const int SoundGameLose = 6;
     public const int SoundGameWin = 7;
-    public const int SoundGameLose = 8;
-    public const int SoundReadygo = 9;
 
-    public const int Sound10 = 10;
-    public const int Sound11 = 11;
-    public const int Sound12 = 12;
-    public const int Sound13 = 13;
-    public const int Sound14 = 14;
-    public const int Sound15 = 15;
-    public const int Sound16 = 16;
-    public const int Sound17 = 1;
-    public const int Sound18 = 18;
+    public const int SoundMove0 = 8;
+    public const int SoundMove1 = 9;
+    public const int SoundMove2 = 10;
+    public const int SoundMove3 = 11;
+    public const int SoundMove4 = 12;
+    public const int SoundMove5 = 13;
+    public const int SoundMove6 = 14;
 
     public AudioSource audioSourceMusic;
     public AudioSource audioSourceSound;
@@ -51,6 +47,26 @@ public class AudioManager : MonoBehaviour
         instance = this;
     }
 
+    public void PlaySound(int id)
+    {
+        if (soundState == 0)
+        {
+            return;
+        }
+
+        audioSourceSound.PlayOneShot(audioClipsOne[id]);
+    }
+
+    public void StopSound()
+    {
+        if (soundState == 0)
+        {
+            return;
+        }
+
+        audioSourceSound.Stop();
+    }
+
     public void PlayMusic(int id)
     {
         if (soundState == 0)
@@ -61,33 +77,16 @@ public class AudioManager : MonoBehaviour
         audioSourceMusic.clip = audioClipsMusic[id];
         audioSourceMusic.Play();
     }
-
-    public void PlaySound(int id)
-    {
-        if (soundState == 0)
-        {
-            return;
-        }
-        
-        audioSourceSound.PlayOneShot(audioClipsOne[id]);
-    }
+      
 
 
     public void StopMusic()
     {
-        if (soundState == 0)
-        {
-            return;
-        }
         audioSourceMusic.volume = 0;
     }
 
     public void RePlayMusic()
     {
-        if (soundState == 0)
-        {
-            return;
-        }
         audioSourceMusic.volume = 1;
     }
 
@@ -105,18 +104,5 @@ public class AudioManager : MonoBehaviour
                 audioSourceMusic.Play();
         }
     }
-
-    private void Update()
-    {
-        //if (GameController.GetInstance().soundState == 0)
-        //{
-        //    if (audioSourceMusic.isPlaying)
-        //        audioSourceMusic.Stop();
-        //}
-        //else
-        //{
-        //    if (audioSourceMusic.isPlaying==false)
-        //        audioSourceMusic.Play();
-        //}
-    }
+    
 }
