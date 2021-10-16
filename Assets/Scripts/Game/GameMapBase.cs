@@ -35,7 +35,10 @@ public class GameMapBase : MonoBehaviour
                 InitChildData(i);
             }
         }
-        Debug.Log("current level has buttonCicle "+GameController.GetInstance().totalHideDbNum);
+        Debug.Log("current level has Db "+GameController.GetInstance().totalHideDbNum);
+        Debug.Log("current level has sp0 "+GameController.GetInstance().sp0Num);
+        Debug.Log("current level has sp1 " + GameController.GetInstance().sp1Num);
+        Debug.Log("current level has sp2 " + GameController.GetInstance().sp2Num);
     }
 
     private void InitChildData(int _index)

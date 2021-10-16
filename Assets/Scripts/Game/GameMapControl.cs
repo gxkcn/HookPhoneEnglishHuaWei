@@ -18,6 +18,14 @@ public class GameMapControl : MonoBehaviour
             if (GameController.GetInstance().currentLevel == i)
             {
                 objMap[i].SetActive(true);
+                //Debug.Log(objMap[i].gameObject.transform.childCount+">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                int _lengh = objMap[i].gameObject.transform.childCount;
+                objMap[i].GetComponent<GameMapBase>().objChild = new GameObject[_lengh];
+                for (int j = 0; j < _lengh; j++)
+                {
+                    objMap[i].GetComponent<GameMapBase>().objChild[j] =
+                        objMap[i].gameObject.transform.GetChild(j).gameObject;
+                }
                 objMap[i].GetComponent<GameMapBase>().InitData();
             }
             else
@@ -26,7 +34,7 @@ public class GameMapControl : MonoBehaviour
             }
         }
 
-        //Invoke("StartJhLine", 0.5f);
+        //Invoke("ResetLineLjState", 0.5f);
     }
 
     /// <summary>
@@ -64,8 +72,9 @@ public class GameMapControl : MonoBehaviour
         //for (int i = 0; i < _length; i++)
         //{
         //    GameObject obj = objMap[GameController.GetInstance().currentLevel].transform.GetChild(i).gameObject;
+            
         //    if (obj.tag == "btnCicle")
-        //    {
+        //    {                
         //        obj.GetComponent<GameButtonCicle>().StartJh();
         //    }
         //}
@@ -77,7 +86,7 @@ public class GameMapControl : MonoBehaviour
     /// <param name="_index"></param>
     public void StartJh(int _index, string _tag)
     {
-        Debug.Log("mapcontrol startjh" + _index);
+        Debug.Log("mapcontrol startjh: " + _tag + "   " + _index);
         int _length = objMap[GameController.GetInstance().currentLevel].transform.childCount;
         for (int i = 0; i < _length; i++)
         {
@@ -137,9 +146,9 @@ public class GameMapControl : MonoBehaviour
     /// 判断连接点是否可以被激活，主要是三个连接按钮
     /// </summary>
     /// <param name="_index"></param>
-    public bool GetStartJhLj(int _indexLine,int _index, string _tag)
+    public bool GetStartJhLj(int _indexLine, int _index, string _tag)
     {
-        Debug.Log("mapcontrol startjh" + _index);
+        Debug.Log("mapcontrol GetStartJhLj" + _index);
         int _length = objMap[GameController.GetInstance().currentLevel].transform.childCount;
         for (int i = 0; i < _length; i++)
         {
@@ -173,6 +182,28 @@ public class GameMapControl : MonoBehaviour
             }
         }
         return false;
+    }
+    /// <summary>
+    /// 激活同种类sp
+    /// </summary>
+    public void StartJhAllSameSp(int _type)
+    {
+        Debug.Log("mapcontrol StartJhAllSameSp" + _type);
+        int _length = objMap[GameController.GetInstance().currentLevel].transform.childCount;
+        for (int i = 0; i < _length; i++)
+        {
+            GameObject obj = objMap[GameController.GetInstance().currentLevel].transform.GetChild(i).gameObject;
+            if (obj.gameObject.activeSelf)
+            {
+                if (obj.tag == "sp")
+                {
+                    if (obj.GetComponent<GameSp>().type == _type)
+                    {
+                        obj.GetComponent<GameSp>().StartJh();
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -260,64 +291,108 @@ public class GameMapControl : MonoBehaviour
     public void ExamineHide()
     {
         Debug.Log("===================================mapcontrol ExamineHide");
-        //检测两次，先检测挡板连接线，然后检测是否需要消除没用的线===特殊处理就是使用while循环进行多次遍历,暂时不用这个方法
+        int a = 3;
+        while (a > 0)
+        {
+            a--;
+            //检测两次，先检测挡板连接线，然后检测是否需要消除没用的线===特殊处理就是使用while循环进行多次遍历,暂时不用这个方法
+            int _length = objMap[GameController.GetInstance().currentLevel].transform.childCount;
+            for (int i = 0; i < _length; i++)
+            {
+                GameObject obj = objMap[GameController.GetInstance().currentLevel].transform.GetChild(i).gameObject;
+                if (obj.tag == "line")
+                {
+                    obj.GetComponent<GameLine>().ExamineHide();
+                }
+
+            }
+            //for (int i = 0; i < _length; i++)
+            //{
+            //    GameObject obj = objMap[GameController.GetInstance().currentLevel].transform.GetChild(i).gameObject;
+            //    if (obj.tag == "line")
+            //    {
+            //        obj.GetComponent<GameLine>().ExamineHide();
+            //    }
+
+            //}
+            Debug.Log("======================mapcontrol ExamineHide==========line finish");
+            //Debug.Log(GameController.GetInstance().stateLine[3]+"==3");
+            //特殊连接点
+            for (int i = 0; i < _length; i++)
+            {
+                GameObject obj = objMap[GameController.GetInstance().currentLevel].transform.GetChild(i).gameObject;
+                if (obj.tag == "btnLj0")
+                {
+                    obj.GetComponent<GameButtonLj0>().ExamineHide();
+                }
+                if (obj.tag == "btnLj1")
+                {
+                    obj.GetComponent<GameButtonLj1>().ExamineHide();
+                }
+                if (obj.tag == "btnLj2")
+                {
+                    obj.GetComponent<GameButtonLj2>().ExamineHide();
+                }
+                if (obj.tag == "btnLj3")
+                {
+                    obj.GetComponent<GameButtonLj3>().ExamineHide();
+                }
+                if (obj.tag == "sp")
+                {
+                    obj.GetComponent<GameSp>().ExamineHide();
+                }
+            }
+            Debug.Log("======================mapcontrol ExamineHide==========lianjie finish");
+            //
+            for (int i = 0; i < _length; i++)
+            {
+                GameObject obj = objMap[GameController.GetInstance().currentLevel].transform.GetChild(i).gameObject;
+                if (obj.tag == "btnCicle")
+                {
+                    obj.GetComponent<GameButtonCicle>().ExamineHide();
+                }
+            }
+            //消除最后一个sp
+            if (GameController.GetInstance().sp0Num == 1)
+            {
+                ExamineLastSameSp(0);
+            }
+            if (GameController.GetInstance().sp1Num == 1)
+            {
+                ExamineLastSameSp(1);
+            }
+            if (GameController.GetInstance().sp2Num == 1)
+            {
+                ExamineLastSameSp(2);
+            }
+        }
+        Debug.Log("======================mapcontrol ExamineHide==========btnCicle finish");
+    }
+
+    /// <summary>
+    /// 挡板消失后开始检测有没有需要检测的消失的
+    /// </summary>
+    /// <param name="_index"></param>
+    public void ExamineLastSameSp(int _type)
+    {
+        Debug.Log("mapcontrol ExamineLastSameSp" + _type);
         int _length = objMap[GameController.GetInstance().currentLevel].transform.childCount;
         for (int i = 0; i < _length; i++)
         {
             GameObject obj = objMap[GameController.GetInstance().currentLevel].transform.GetChild(i).gameObject;
-            if (obj.tag == "line")
-            {
-                obj.GetComponent<GameLine>().ExamineHide();
-            }
-
-        }
-        for (int i = 0; i < _length; i++)
-        {
-            GameObject obj = objMap[GameController.GetInstance().currentLevel].transform.GetChild(i).gameObject;
-            if (obj.tag == "line")
-            {
-                obj.GetComponent<GameLine>().ExamineHide();
-            }
-
-        }
-        Debug.Log("======================mapcontrol ExamineHide==========line finish");
-        //Debug.Log(GameController.GetInstance().stateLine[3]+"==3");
-        //特殊连接点
-        for (int i = 0; i < _length; i++)
-        {
-            GameObject obj = objMap[GameController.GetInstance().currentLevel].transform.GetChild(i).gameObject;
-            if (obj.tag == "btnLj0")
-            {
-                obj.GetComponent<GameButtonLj0>().ExamineHide();
-            }
-            if (obj.tag == "btnLj1")
-            {
-                obj.GetComponent<GameButtonLj1>().ExamineHide();
-            }
-            if (obj.tag == "btnLj2")
-            {
-                obj.GetComponent<GameButtonLj2>().ExamineHide();
-            }
-            if (obj.tag == "btnLj3")
-            {
-                obj.GetComponent<GameButtonLj3>().ExamineHide();
-            }
             if (obj.tag == "sp")
             {
-                obj.GetComponent<GameSp>().ExamineHide();
+                if(obj.gameObject.activeSelf)
+                {
+                    if (obj.GetComponent<GameSp>().type == _type)
+                    {
+                        obj.GetComponent<GameSp>().Hide();
+                    }                   
+                }
+                
             }
         }
-        Debug.Log("======================mapcontrol ExamineHide==========lianjie finish");
-        //
-        for (int i = 0; i < _length; i++)
-        {
-            GameObject obj = objMap[GameController.GetInstance().currentLevel].transform.GetChild(i).gameObject;
-            if (obj.tag == "btnCicle")
-            {
-                obj.GetComponent<GameButtonCicle>().ExamineHide();
-            }
-        }
-        Debug.Log("======================mapcontrol ExamineHide==========btnCicle finish");
+        ExamineHide();
     }
 
     /// <summary>
@@ -361,13 +436,13 @@ public class GameMapControl : MonoBehaviour
                     return obj.GetComponent<GameButtonLj3>().ExamineLineUse(_idLine);
                 }
             }
-            if (_type == 4 && obj.tag == "sp")
-            {
-                if (obj.GetComponent<GameSp>().ID == _idLj)
-                {
-                    return obj.GetComponent<GameSp>().ExamineLineUse(_idLine);
-                }
-            }
+            //if (_type == 4 && obj.tag == "sp")
+            //{
+            //    if (obj.GetComponent<GameSp>().ID == _idLj)
+            //    {
+            //        return obj.GetComponent<GameSp>().ExamineLineUse(_idLine);
+            //    }
+            //}
         }
         return true;
     }
@@ -393,7 +468,7 @@ public class GameMapControl : MonoBehaviour
             GameObject obj = objMap[GameController.GetInstance().currentLevel].transform.GetChild(i).gameObject;
             if (obj.tag == "db")
             {
-                Debug.Log(obj.GetComponent<GameDb>().ID+"&&&&"+GameController.GetInstance().lineStateJh[obj.GetComponent<GameDb>().ID]);
+                Debug.Log(obj.GetComponent<GameDb>().ID + "&&&&" + GameController.GetInstance().lineStateJh[obj.GetComponent<GameDb>().ID]);
                 if (GameController.GetInstance().lineStateJh[obj.GetComponent<GameDb>().ID] == 1)
                 {
                     obj.GetComponent<GameDb>().StartJh();

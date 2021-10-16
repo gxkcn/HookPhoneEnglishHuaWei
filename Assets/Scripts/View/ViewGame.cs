@@ -39,7 +39,7 @@ public class ViewGame : MonoBehaviour
     /// </summary>
     public void InitGame()
     {
-        GameController.GetInstance().currentLevel = 21;
+        GameController.GetInstance().currentLevel = 13;
         Debug.Log("ViewGame InitGame");
         SetGameState(GameState.GamePlay);
         timeWait = 0;

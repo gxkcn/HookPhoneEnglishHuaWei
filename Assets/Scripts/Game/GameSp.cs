@@ -1,25 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.UI;
 public class GameSp : MonoBehaviour
 {
     /// <summary>
     /// 在地图中 ID (唯一)
     /// </summary>
     public int ID;
+
+    public int type;
     /// <summary>
     /// 相关联的细线索引
     /// </summary>
-    public int indexLine0, indexLine1, indexLine2, indexLine3;
-
-    private bool isExit;
+    public int indexLine;
 
     public bool isHide;
+    
+    public bool isJh;
 
-    private int state;
-    private int[] indexLineArr;
-
-    private bool isJh;
 
     // Use this for initialization
     void Start()
@@ -32,97 +30,74 @@ public class GameSp : MonoBehaviour
         gameObject.SetActive(true);
         isHide = false;
         isJh = false;
-        indexLine0 = indexLine1 = indexLine2 = indexLine3 = -1;
-        state = 0;
-        indexLineArr = new int[] { -1, -1, -1, -1 };
+        Debug.Log("name = " + GetComponent<Image>().sprite.name);
+        type = int.Parse(GetComponent<Image>().sprite.name);
+        switch (type)
+        {
+            case 0: GameController.GetInstance().sp0Num++;Debug.Log("woshi 0"); break;
+            case 1: GameController.GetInstance().sp1Num++; Debug.Log("woshi 1"); break;
+            case 2: GameController.GetInstance().sp2Num++; Debug.Log("woshi 2"); break;
+        }
+
+        indexLine = -1;
         switch (GameController.GetInstance().currentLevel)
         {
-            case 44:
+            case 33:
                 switch (ID)
                 {
-                    case 0: indexLineArr = new int[] { 2, 0, 1, 3 }; break;
-                    case 1: indexLineArr = new int[] { 7, 6, 8, -1 }; break;
-                    case 2: indexLineArr = new int[] { 18, 16, 20, 19 }; break;
-                    case 3: indexLineArr = new int[] { 18, 19, 21, 22 }; break;
-                    case 4: indexLineArr = new int[] { 23, -1, 25, 24 }; break;
+                    case 0: indexLine = 4; break;
+                    case 1: indexLine = 5; break;
+                    case 2: indexLine = 6; break;
+                }
+                break;
+            case 34:
+                switch (ID)
+                {
+                    case 0: indexLine = 2; break;
+                    case 1: indexLine = 1; break;
+                    case 2: indexLine = 3; break;
+                    case 3: indexLine = 0; break;
+                    case 4: indexLine = 7; break;
+                    case 5: indexLine = 5; break;
+                    case 6: indexLine = 8; break;
+                }
+                break;
+            case 35:
+                switch (ID)
+                {
+                    case 0: indexLine = 2; break;
+                    case 1: indexLine = 4; break;
+                    case 2: indexLine = 3; break;
+                    case 3: indexLine = 1; break;
+                    case 4: indexLine = 5; break;
+                    case 5: indexLine = 12; break;
+                    case 6: indexLine = 13; break;
                 }
                 break;
         }
-        SetState(state);
     }
 
-    public void ButtonDown()
-    {
-        isExit = false;
-        transform.localScale = Vector3.one * 1.2f;
-        AudioManager.GetInstance().PlaySound(AudioManager.SoundClick1);
-    }
-
-    public void ButtonExit()
-    {
-        isExit = true;
-        transform.localScale = Vector3.one;
-    }
-
-    public void ButtonUp()
-    {
-        transform.localScale = Vector3.one;
-        if (isExit == false)
-        {
-            Debug.Log("-------------------------------ButtonUp S<3>P  = " + ID);
-            state++;
-            SetState(state);
-        }
-
-    }
-
-    private void SetState(int _value)
-    {
-        state = _value;
-        if (state > 3)
-        {
-            state = 0;
-        }
-        gameObject.transform.localEulerAngles = new Vector3(0, 0, state * -90);
-        int[] shunXv = { 0, 1, 2, 3 };
-        switch (state)
-        {
-            case 0: shunXv = new int[] { 0, 1, 2 }; break;
-            case 1: shunXv = new int[] { 1, 2, 3 }; break;
-            case 2: shunXv = new int[] { 2, 3, 0 }; break;
-            case 3: shunXv = new int[] { 3, 0, 1 }; break;
-        }
-        Debug.Log(state);
-        Debug.Log(indexLineArr);
-        Debug.Log(shunXv);
-        indexLine0 = indexLineArr[shunXv[0]];
-        indexLine1 = indexLineArr[shunXv[1]];
-        indexLine2 = indexLineArr[shunXv[2]];
-        indexLine3 = -1;
-    }
 
     public void StartJh()
     {
         if (isJh == false)
         {
+            Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>sp被激活" + ID + "    " + type);
+            gameObject.transform.localScale = Vector3.one;
+            LeanTween.scale(gameObject, Vector3.one * 1.3f, 0.2f).setLoopCount(1);
+            Invoke("ScaleReset", 0.2f);
             isJh = true;
-            if (indexLine0 != -1)
+            if (indexLine != -1)
             {
-                ViewController.GetInstance().game.GetComponent<ViewGame>().mapCon.StartJh(indexLine0, "line");
-            }
-            if (indexLine1 != -1)
-            {
-                ViewController.GetInstance().game.GetComponent<ViewGame>().mapCon.StartJh(indexLine1, "line");
-            }
-            if (indexLine2 != -1)
-            {
-                ViewController.GetInstance().game.GetComponent<ViewGame>().mapCon.StartJh(indexLine2, "line");
-            }
-            if (indexLine3 != -1)
-            {
-                ViewController.GetInstance().game.GetComponent<ViewGame>().mapCon.StartJh(indexLine3, "line");
+                ViewController.GetInstance().game.GetComponent<ViewGame>().mapCon.StartJh(indexLine, "line");
+                ViewController.GetInstance().game.GetComponent<ViewGame>().mapCon.StartJhAllSameSp(type);
             }
         }
+    }
+
+    private void ScaleReset()
+    {
+        LeanTween.scale(gameObject, Vector3.one, 0.2f).setLoopCount(1);
     }
 
     public void SetJhFalse()
@@ -136,6 +111,13 @@ public class GameSp : MonoBehaviour
         if (isHide == false)
         {
             isHide = true;
+            switch (type)
+            {
+                case 0: GameController.GetInstance().sp0Num--;break;
+                case 1: GameController.GetInstance().sp1Num--; break;
+                case 2: GameController.GetInstance().sp2Num--; break;
+            }
+            GameController.GetInstance().stateSp[ID] = 0;
             LeanTween.alpha(gameObject, 0, 0.1f).setLoopCount(1);
             Invoke("HideActive", 0.1F);
         }
@@ -150,30 +132,9 @@ public class GameSp : MonoBehaviour
     {
         int _numLj = 0;
 
-        if (indexLine0 != -1)
+        if (indexLine != -1)
         {
-            if (GameController.GetInstance().stateDb[indexLine0] == 1)
-            {
-                _numLj++;
-            }
-        }
-        if (indexLine1 != -1)
-        {
-            if (GameController.GetInstance().stateDb[indexLine0] == 1)
-            {
-                _numLj++;
-            }
-        }
-        if (indexLine2 != -1)
-        {
-            if (GameController.GetInstance().stateDb[indexLine0] == 1)
-            {
-                _numLj++;
-            }
-        }
-        if (indexLine3 != -1)
-        {
-            if (GameController.GetInstance().stateDb[indexLine0] == 1)
+            if (GameController.GetInstance().stateLine[indexLine] == 1)
             {
                 _numLj++;
             }
@@ -185,10 +146,5 @@ public class GameSp : MonoBehaviour
             Hide();
         }
     }
-
-    public bool ExamineLineUse(int _id)
-    {
-
-        return true;
-    }
+   
 }

@@ -7,6 +7,7 @@ public class GameButtonLj1 : MonoBehaviour
     /// 在地图中 ID (唯一)
     /// </summary>
     public int ID;
+    public int state;
     /// <summary>
     /// 相关联的细线索引
     /// </summary>
@@ -15,8 +16,7 @@ public class GameButtonLj1 : MonoBehaviour
     private bool isExit;
 
     public bool isHide;
-
-    public int state;
+    
     private int[] indexLineArr;
 
     public bool isJh;
@@ -45,6 +45,12 @@ public class GameButtonLj1 : MonoBehaviour
                 {
                     case 0: indexLineArr = new int[] { 1,0,5,4 }; state = 1; break;
                     case 1: indexLineArr = new int[] { 6,3,2,7 }; state = 0; break;
+                }
+                break;
+            case 35:
+                switch (ID)
+                {
+                    case 0: indexLineArr = new int[] { 10,7,11,13 }; state = 1; break;
                 }
                 break;
         }

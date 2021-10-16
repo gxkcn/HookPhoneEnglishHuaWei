@@ -49,7 +49,7 @@ public class GameLineBlod : MonoBehaviour
                 {
                     if (collision.gameObject.tag == "lineBold" || collision.gameObject.tag == "lineBoldCicle")
                     {
-                        // Debug.Log("*******************碰撞了"+ collision.gameObject.GetComponent<GameLineBlod>().ID+ collision.gameObject.tag);
+                        Debug.Log("*******************碰撞了"+ collision.gameObject.GetComponent<GameLineBlod>().ID+ collision.gameObject.tag);
 
                         if (isHit == false)
                         {

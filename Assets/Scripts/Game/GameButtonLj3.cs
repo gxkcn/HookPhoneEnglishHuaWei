@@ -7,19 +7,20 @@ public class GameButtonLj3 : MonoBehaviour
     /// 在地图中 ID (唯一)
     /// </summary>
     public int ID;
+    public int state;
     /// <summary>
     /// 相关联的细线索引
     /// </summary>
-    public int indexLine0, indexLine1, indexLine2, indexLine3;
+    public int indexLine0, indexLine1, indexLine2;
 
     private bool isExit;
 
     public bool isHide;
 
-    private int state;
+    
     private int[] indexLineArr;
 
-    private bool isJh;
+    public bool isJh;
 
     private bool isCanClick;
 
@@ -35,19 +36,23 @@ public class GameButtonLj3 : MonoBehaviour
         isHide = false;
         isCanClick = true;
         isJh = false;
-        indexLine0 = indexLine1 = indexLine2 = indexLine3 = -1;
+        indexLine0 = indexLine1 = indexLine2  = - 1;
         state = 0;
         indexLineArr = new int[] { -1, -1, -1, -1 };
         switch (GameController.GetInstance().currentLevel)
         {
-            case 44:
+            case 27:
                 switch (ID)
                 {
-                    case 0: indexLineArr = new int[] { 2, 0, 1, 3 }; break;
-                    case 1: indexLineArr = new int[] { 7, 6, 8, -1 }; break;
-                    case 2: indexLineArr = new int[] { 18, 16, 20, 19 }; break;
-                    case 3: indexLineArr = new int[] { 18, 19, 21, 22 }; break;
-                    case 4: indexLineArr = new int[] { 23, -1, 25, 24 }; break;
+                    case 0: indexLineArr = new int[] { 3,2,4,-1 }; state = 0; break;
+                    case 1: indexLineArr = new int[] { 4,1,5, -1 }; state = 0; break;
+                    case 2: indexLineArr = new int[] { 5,0,6, -1 }; state = 0; break;
+                }
+                break;
+            case 33:
+                switch (ID)
+                {
+                    case 0: indexLineArr = new int[] { -1,6,2,3 }; state = 2; break;
                 }
                 break;
         }
@@ -61,7 +66,7 @@ public class GameButtonLj3 : MonoBehaviour
             isExit = false;
             transform.localScale = Vector3.one * 1.2f;
             AudioManager.GetInstance().PlaySound(AudioManager.SoundClick1);
-        }        
+        }
     }
 
     public void ButtonExit()
@@ -83,6 +88,7 @@ public class GameButtonLj3 : MonoBehaviour
                 Debug.Log("-------------------------------ButtonUp S<3>P  = " + ID);
                 state++;
                 SetState(state);
+                ViewController.GetInstance().game.GetComponent<ViewGame>().mapCon.ResetLineLjState();
                 Invoke("ResetClick", 0.8f);
             }
         }
@@ -101,21 +107,17 @@ public class GameButtonLj3 : MonoBehaviour
             state = 0;
         }
         gameObject.transform.localEulerAngles = new Vector3(0, 0, state * -90);
-        int[] shunXv = { 0, 1, 2, 3 };
+        int[] shunXv = { 0,1,2};
         switch (state)
         {
             case 0: shunXv = new int[] { 0, 1, 2 }; break;
-            case 1: shunXv = new int[] { 1, 2, 3 }; break;
-            case 2: shunXv = new int[] { 2, 3, 0 }; break;
-            case 3: shunXv = new int[] { 3, 0, 1 }; break;
+            case 1: shunXv = new int[] { 1,2,3 }; break;
+            case 2: shunXv = new int[] { 2,3,0 }; break;
+            case 3: shunXv = new int[] { 3,0,1 }; break;
         }
-        Debug.Log(state);
-        Debug.Log(indexLineArr);
-        Debug.Log(shunXv);
         indexLine0 = indexLineArr[shunXv[0]];
         indexLine1 = indexLineArr[shunXv[1]];
         indexLine2 = indexLineArr[shunXv[2]];
-        indexLine3 = -1;
     }
 
     public void StartJh()
@@ -135,10 +137,6 @@ public class GameButtonLj3 : MonoBehaviour
             {
                 ViewController.GetInstance().game.GetComponent<ViewGame>().mapCon.StartJh(indexLine2, "line");
             }
-            if (indexLine3 != -1)
-            {
-                ViewController.GetInstance().game.GetComponent<ViewGame>().mapCon.StartJh(indexLine3, "line");
-            }
         }
     }
     /// <summary>
@@ -148,12 +146,13 @@ public class GameButtonLj3 : MonoBehaviour
     /// <returns></returns>
     public bool GetStartJhLj(int _indexLine)
     {
-        if (indexLine0 == _indexLine || indexLine1 == _indexLine)
+        if (indexLine0 == _indexLine || indexLine1 == _indexLine || indexLine2 == _indexLine)
         {
             return true;
         }
         return false;
     }
+
     public void SetJhFalse()
     {
         isJh = false;
@@ -165,6 +164,7 @@ public class GameButtonLj3 : MonoBehaviour
         if (isHide == false)
         {
             isHide = true;
+            GameController.GetInstance().stateLj3[ID] = 0;
             LeanTween.alpha(gameObject, 0, 0.1f).setLoopCount(1);
             Invoke("HideActive", 0.1F);
         }
@@ -179,30 +179,30 @@ public class GameButtonLj3 : MonoBehaviour
     {
         int _numLj = 0;
 
-        if (indexLine0 != -1)
+        if (indexLineArr[0] != -1)
         {
-            if (GameController.GetInstance().stateDb[indexLine0] == 1)
+            if (GameController.GetInstance().stateDb[indexLineArr[0]] == 1)
             {
                 _numLj++;
             }
         }
-        if (indexLine1 != -1)
+        if (indexLineArr[1] != -1)
         {
-            if (GameController.GetInstance().stateDb[indexLine0] == 1)
+            if (GameController.GetInstance().stateDb[indexLineArr[1]] == 1)
             {
                 _numLj++;
             }
         }
-        if (indexLine2 != -1)
+        if (indexLineArr[2] != -1)
         {
-            if (GameController.GetInstance().stateDb[indexLine0] == 1)
+            if (GameController.GetInstance().stateDb[indexLineArr[2]] == 1)
             {
                 _numLj++;
             }
         }
-        if (indexLine3 != -1)
+        if (indexLineArr[3] != -1)
         {
-            if (GameController.GetInstance().stateDb[indexLine0] == 1)
+            if (GameController.GetInstance().stateDb[indexLineArr[3]] == 1)
             {
                 _numLj++;
             }
@@ -215,8 +215,22 @@ public class GameButtonLj3 : MonoBehaviour
         }
     }
     public bool ExamineLineUse(int _id)
-    {
-
-        return true;
+    {        
+        int _numShow = 0;
+        for (int i = 0; i < indexLineArr.Length; i++)
+        {
+            if (indexLineArr[i] != -1)
+            {
+                if (GameController.GetInstance().stateLine[indexLineArr[i]] == 1)
+                {
+                    _numShow++;
+                }
+            }
+        }
+        if (_numShow > 1)
+        {
+            return true;
+        }
+        return false;
     }
 }

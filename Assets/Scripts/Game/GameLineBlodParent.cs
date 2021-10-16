@@ -5,6 +5,8 @@ public class GameLineBlodParent : MonoBehaviour
 {
 
     public int ID;
+    //直线 直线和曲线
+    public int type = 0;
 
     public int typeMove = 0;
 
@@ -25,6 +27,7 @@ public class GameLineBlodParent : MonoBehaviour
     private bool isLoop;
     private float loopTime;
     private int loopState;
+
 
     void Start()
     {
@@ -50,12 +53,18 @@ public class GameLineBlodParent : MonoBehaviour
         {
             objChildBold[i].GetComponent<GameLineBlod>().ID = ID;
         }
+
     }
 
     public void StartJh(bool _value)
     {
+        if (isLoop)
+        {
+            return;
+        }
         if (isJh != _value)
         {
+            Debug.Log("bold >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ _value);
             isJh = _value;
             if (isJh)
             {
@@ -66,7 +75,7 @@ public class GameLineBlodParent : MonoBehaviour
             {
                 GameController.GetInstance().stateJhBold[ID] = 0;
                 SetLoop(true);
-                ResetChildHitState();
+                //ResetChildHitState();
                 ViewController.GetInstance().game.GetComponent<ViewGame>().StopMoveSound();
                 ViewController.GetInstance().game.GetComponent<ViewGame>().mapCon.ResetDb(ID, "db");
             }
@@ -85,10 +94,10 @@ public class GameLineBlodParent : MonoBehaviour
 
 
     public void Update()
-    {
+    {        
         if (isLoop)
         {
-            UpdateLoop();
+            
         }
         else
         {
@@ -136,6 +145,10 @@ public class GameLineBlodParent : MonoBehaviour
     /// <returns></returns>
     private bool ExamineHit()
     {
+        if (type == 1)
+        {
+            return false;
+        }
         int _length = objChildBold.Length;
         for (int i = 0; i < _length; i++)
         {
@@ -165,6 +178,7 @@ public class GameLineBlodParent : MonoBehaviour
     {
         if (isLoop != _value)
         {
+            Debug.Log("start loop>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             isLoop = _value;
             loopTime = -1;
             loopState = -1;
@@ -174,7 +188,7 @@ public class GameLineBlodParent : MonoBehaviour
                 //objChild.transform.localPosition = new Vector3(0, 0, 0);//往回倒 
                 curX = 0;
                 LeanTween.moveLocal(objChild, new Vector3(0, 0, 0), 0.25F).setLoopCount(2);
-                Invoke("ResetDbStateJh", 0.25f);
+                Invoke("ResetDbStateJh", 0.5f);
                 //正式
                 //SetLoopState(0);
             }
@@ -185,9 +199,11 @@ public class GameLineBlodParent : MonoBehaviour
     /// 复位后让挡板可以再次开始检测
     /// </summary>
     private void ResetDbStateJh()
-    {
-        isLoop = false;
+    {        
         ViewController.GetInstance().game.GetComponent<ViewGame>().mapCon.ResetDbStateJh(ID, "db");
+        isLoop = false;
+        ResetChildHitState();
+        Debug.Log("finish loop>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     }
 
     //private void SetLoopState(int _value)
@@ -229,8 +245,8 @@ public class GameLineBlodParent : MonoBehaviour
     //    }
     //}
 
-    private void UpdateLoop()
-    {
+    //private void UpdateLoop()
+    //{
         //loopTime += Time.deltaTime;
         //if (loopTime >=0.1f&& loopTime <0.2F)
         //{
@@ -240,5 +256,5 @@ public class GameLineBlodParent : MonoBehaviour
         //{
         //    SetLoopState(2);
         //}
-    }
+    //}
 }

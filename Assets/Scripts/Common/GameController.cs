@@ -28,7 +28,7 @@ public class GameController
     /// </summary>
     public int[] stateBtnCicle = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
     /// <summary>
-    /// 用来记录线是否消失
+    /// 用来记录线是否消失1 存在默认值
     /// </summary>
     public int[] stateLine = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
     /// <summary>
@@ -64,6 +64,9 @@ public class GameController
     /// </summary>
     public int[] lineStateJh = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
+    public int sp0Num = 0;
+    public int sp1Num = 0;
+    public int sp2Num = 0;
     //================================================================游戏关卡数据变量===============================================================
     public static GameController GetInstance()
     {
@@ -93,5 +96,8 @@ public class GameController
         stateJhBold = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         lineStateJh = new int[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        sp0Num = 0;
+        sp1Num = 0;
+        sp2Num = 0;
     }
 }

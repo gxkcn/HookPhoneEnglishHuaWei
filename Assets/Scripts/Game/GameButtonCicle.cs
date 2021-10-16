@@ -62,6 +62,92 @@ public class GameButtonCicle : MonoBehaviour {
                     case 2: indexLine0 = 2; break;
                 }
                 break;
+            case 4:
+                switch (ID)
+                {
+                    case 0: indexLine0 = 0; break;
+                    case 1: indexLine0 = 1; break;                    
+                }
+                break;
+            case 5:
+                switch (ID)
+                {
+                    case 0: indexLine0 = 0; break;
+                    case 1: indexLine0 = 1; break;
+                    case 2: indexLine0 = 2; break;
+                    case 3: indexLine0 = 3; break;
+                }
+                break;
+            case 6:
+                switch (ID)
+                {
+                    case 0: indexLine0 = 0; indexLine1 = 1; break;
+                    case 1: indexLine0 = 2; break;
+                    case 2: indexLine0 = 3; break;
+                    case 3: indexLine0 = 4; break;
+                }
+                break;
+            case 7:
+                switch (ID)
+                {
+                    case 0: indexLine0 = 3; break;
+                    case 1: indexLine0 = 1; break;
+                    case 2: indexLine0 = 2; break;
+                    case 3: indexLine0 = 4; break;
+                    case 4: indexLine0 = 0; break;
+                }
+                break;
+            case 8:
+                switch (ID)
+                {
+                    case 0: indexLine0 = 1; indexLine1 = 4; break;
+                    case 1: indexLine0 = 0; indexLine1 = 3; break;
+                    case 2: indexLine0 = 2; indexLine1 = 5; break;
+                }
+                break;
+            case 9:
+                switch (ID)
+                {
+                    case 0: indexLine0 = 3;  break;
+                    case 1: indexLine0 = 1;  break;
+                    case 2: indexLine0 = 2;  break;
+                    case 3: indexLine0 = 0;  break;
+                }
+                break;
+            case 10:
+                switch (ID)
+                {
+                    case 0: indexLine0 = 0; break;
+                    case 1: indexLine0 = 3; break;
+                    case 2: indexLine0 = 2; break;
+                    case 3: indexLine0 = 1; break;
+                }
+                break;
+            case 11:
+                switch (ID)
+                {
+                    case 0: indexLine0 = 5; break;
+                    case 1: indexLine0 = 2; break;
+                    case 2: indexLine0 = 1; break;
+                    case 3: indexLine0 = 4; break;
+                    case 4: indexLine0 = 3; break;
+                    case 5: indexLine0 = 0; break;
+                }
+                break;
+            case 12:
+                switch (ID)
+                {
+                    case 0: indexLine0 = 8; break;
+                }
+                break;
+            case 13:
+                switch (ID)
+                {
+                    case 0: indexLine0 = 0; break;
+                    case 1: indexLine0 = 4; break;
+                    case 2: indexLine0 = 2; break;
+                }
+                break;
             case 17:
                 switch (ID)
                 {
@@ -77,6 +163,30 @@ public class GameButtonCicle : MonoBehaviour {
                     case 0: indexLine0 = 6; break;
                 }
                 break;
+            case 27:
+                switch (ID)
+                {
+                    case 0: indexLine0 = 6; break;
+                }
+                break;
+            case 33:
+                switch (ID)
+                {
+                    case 0: indexLine0 = 4; break;
+                }
+                break;
+            case 34:
+                switch (ID)
+                {
+                    case 0: indexLine0 = 6; indexLine1 = 9; break;
+                }
+                break;
+            case 35:
+                switch (ID)
+                {
+                    case 0: indexLine0 = 7; indexLine1 = 11; break;
+                }
+                break;
         }
 
     }
@@ -88,6 +198,7 @@ public class GameButtonCicle : MonoBehaviour {
             isExit = false;
             transform.localScale = Vector3.one * 1.2f;
             AudioManager.GetInstance().PlaySound(AudioManager.SoundClick0);
+            ViewController.GetInstance().game.GetComponent<ViewGame>().mapCon.ResetLineLjState();
         }        
     }
 
@@ -125,6 +236,8 @@ public class GameButtonCicle : MonoBehaviour {
 
     public void StartJh()
     {
+        Debug.Log("Btn jh "+ID + ": " + indexLine0 + " , " + indexLine1 + " , " +
+            indexLine2 + " , " + indexLine3);
         if (indexLine0 != -1)
         {
             ViewController.GetInstance().game.GetComponent<ViewGame>().mapCon.StartJh(indexLine0, "line");
