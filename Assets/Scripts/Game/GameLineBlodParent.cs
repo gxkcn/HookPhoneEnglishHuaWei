@@ -5,8 +5,6 @@ public class GameLineBlodParent : MonoBehaviour
 {
 
     public int ID;
-    //直线 直线和曲线
-    public int type = 0;
 
     public int typeMove = 0;
 
@@ -19,6 +17,7 @@ public class GameLineBlodParent : MonoBehaviour
     public GameObject objChild;
 
     public GameObject[] objChildBold;
+    public bool isHit = false;
 
     private float width;
     private float speed = 6;
@@ -27,6 +26,8 @@ public class GameLineBlodParent : MonoBehaviour
     private bool isLoop;
     private float loopTime;
     private int loopState;
+
+    private float moveDis = 0;
 
 
     void Start()
@@ -41,7 +42,7 @@ public class GameLineBlodParent : MonoBehaviour
         isLoop = false;
         loopTime = 0;
         loopState = 0;
-
+        isHit = false;
         objChild.transform.localPosition = Vector3.zero;
         curX = 0;
         width = transform.GetComponent<RectTransform>().rect.width;
@@ -53,11 +54,12 @@ public class GameLineBlodParent : MonoBehaviour
         {
             objChildBold[i].GetComponent<GameLineBlod>().ID = ID;
         }
-
+        moveDis = 0;
     }
 
     public void StartJh(bool _value)
     {
+        Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>bold start jh "+ID+  _value);
         if (isLoop)
         {
             return;
@@ -103,16 +105,17 @@ public class GameLineBlodParent : MonoBehaviour
         {
             if (isJh)
             {
-                if (ExamineHit())
+                if (ExamineHit()|| ViewController.GetInstance().game.GetComponent<ViewGame>().isHit)
                 {
                     StartJh(false);
                 }
                 else
                 {
+                    moveDis += speed;
                     if (typeMove == 0)
                     {
                         if (objChild.transform.localPosition.x < width)
-                        {
+                        {                            
                             curX += speed;
                             ViewController.GetInstance().game.GetComponent<ViewGame>().PlayMoveSound();
                         }
@@ -145,8 +148,9 @@ public class GameLineBlodParent : MonoBehaviour
     /// <returns></returns>
     private bool ExamineHit()
     {
-        if (type == 1)
+        if (moveDis > 40f)
         {
+            isHit = false;
             return false;
         }
         int _length = objChildBold.Length;
@@ -154,9 +158,15 @@ public class GameLineBlodParent : MonoBehaviour
         {
             if (objChildBold[i].GetComponent<GameLineBlod>().isHit)
             {
+                Debug.Log(ID+ "==="+ moveDis + "  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>hit true " + moveDis);
+
+                moveDis = 0;
+                isHit = true;
+                ViewController.GetInstance().game.GetComponent<ViewGame>().LifeSubtract();
                 return true;
             }
         }
+        isHit = false;
         return false;
     }
 
@@ -178,19 +188,14 @@ public class GameLineBlodParent : MonoBehaviour
     {
         if (isLoop != _value)
         {
-            Debug.Log("start loop>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             isLoop = _value;
             loopTime = -1;
             loopState = -1;
             if (isLoop)
             {
-                //测试
-                //objChild.transform.localPosition = new Vector3(0, 0, 0);//往回倒 
                 curX = 0;
-                LeanTween.moveLocal(objChild, new Vector3(0, 0, 0), 0.25F).setLoopCount(2);
+                LeanTween.moveLocal(objChild, new Vector3(0, 0, 0), 0.25F).setLoopCount(isHit?2:1);
                 Invoke("ResetDbStateJh", 0.5f);
-                //正式
-                //SetLoopState(0);
             }
         }
     }
@@ -203,58 +208,5 @@ public class GameLineBlodParent : MonoBehaviour
         ViewController.GetInstance().game.GetComponent<ViewGame>().mapCon.ResetDbStateJh(ID, "db");
         isLoop = false;
         ResetChildHitState();
-        Debug.Log("finish loop>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    }
-
-    //private void SetLoopState(int _value)
-    //{
-    //    if (loopState != _value)
-    //    {
-    //        loopState = _value;
-    //        switch (loopState)
-    //        {
-    //            case 0:
-    //                if (typeMove == 0)
-    //                {
-    //                    curX -= speed;
-    //                }
-    //                else
-    //                {
-    //                    curX += speed;
-    //                }                    
-    //                break;
-    //            case 1:
-    //                if (typeMove == 0)
-    //                {
-    //                    curX += speed;
-    //                }
-    //                else
-    //                {
-    //                    curX -= speed;
-    //                }
-    //                break;
-    //            case 2:
-    //                curX = 0;
-    //                break;
-    //        }
-    //        objChild.transform.localPosition = new Vector3(curX, 0, 0);//往回倒 
-    //        if (loopState == 2)
-    //        {
-    //            SetLoop(false);
-    //        }
-    //    }
-    //}
-
-    //private void UpdateLoop()
-    //{
-        //loopTime += Time.deltaTime;
-        //if (loopTime >=0.1f&& loopTime <0.2F)
-        //{
-        //    SetLoopState(1);
-        //}
-        //else if (loopTime >= 0.2f && loopTime < 0.3F)
-        //{
-        //    SetLoopState(2);
-        //}
-    //}
+    }    
 }

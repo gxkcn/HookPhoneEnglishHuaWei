@@ -42,7 +42,7 @@ public class GameMapControl : MonoBehaviour
     /// </summary>
     public void ResetLineLjState()
     {
-        GameController.GetInstance().lineStateJh = new int[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        GameController.GetInstance().lineStateJh = new int[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         int _length = objMap[GameController.GetInstance().currentLevel].transform.childCount;
         for (int i = 0; i < _length; i++)
@@ -86,7 +86,7 @@ public class GameMapControl : MonoBehaviour
     /// <param name="_index"></param>
     public void StartJh(int _index, string _tag)
     {
-        Debug.Log("mapcontrol startjh: " + _tag + "   " + _index);
+        Debug.Log("mapcontrol startjh:------->>>>>>> " + _tag + "   " + _index);
         int _length = objMap[GameController.GetInstance().currentLevel].transform.childCount;
         for (int i = 0; i < _length; i++)
         {
@@ -291,7 +291,7 @@ public class GameMapControl : MonoBehaviour
     public void ExamineHide()
     {
         Debug.Log("===================================mapcontrol ExamineHide");
-        int a = 3;
+        int a = 4;
         while (a > 0)
         {
             a--;
@@ -461,7 +461,7 @@ public class GameMapControl : MonoBehaviour
     /// <param name="_index"></param>
     public void ButtonClickFun(int _index)
     {
-        Debug.Log("点击按钮开始检测粗线是否可以移动 mapcontrol ButtonClickFun");
+        Debug.Log("点击按钮开始检测粗线是否可以移动 mapcontrol ButtonClickFun"+ _index);
         int _length = objMap[GameController.GetInstance().currentLevel].transform.childCount;
         for (int i = 0; i < _length; i++)
         {

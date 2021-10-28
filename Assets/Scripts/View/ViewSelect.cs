@@ -60,9 +60,14 @@ public class ViewSelect : MonoBehaviour
         fingerSegmentY = 0;
         fingerTouchState = FINGER_STATE_NULL;
         //
-        curPage = (LocalData.GetInstance().levelCurMax - 1) / 18;        
+        curPage = (LocalData.GetInstance().levelCurMax - 1) / 18;
         //初始化 Grid Grounp数据--暂时没有用
-
+        parentButtonLevel.GetComponent<GridLayoutGroup>().spacing = new Vector2(
+            60 , 60 / (Screen.height / (720f)));
+        //parentButtonLevel.GetComponent<GridLayoutGroup>().padding.left
+        //    = (Screen.width - (98 * 3 + 60 * 2)) / 2;
+        //parentButtonLevel.GetComponent<GridLayoutGroup>().padding.top
+        //    = (Screen.height - (98 * 3 + 60 * 2)) / 2;
 
         RefrushPanelButtonLevel();
     }

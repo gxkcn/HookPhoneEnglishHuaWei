@@ -89,14 +89,14 @@ public class LocalData
     /// </summary>
     public void LoadLocalData()
     {
-        return;
         Debug.Log("加载游戏数据");
         Gold = PlayerPrefs.GetInt("gold", Gold);
         playTimePerDay = PlayerPrefs.GetInt("playTimePerDay", playTimePerDay);
-        levelStar = Tools.LoadPlayerPrefsArray("CarState", levelStar);
+        levelStar = Tools.LoadPlayerPrefsArray("levelStar", levelStar);
         loginTimes = PlayerPrefs.GetInt("loginTimes", loginTimes);
         loginDatePerDay = PlayerPrefs.GetString("loginDatePerDay", loginDatePerDay);
         levelCurMax = PlayerPrefs.GetInt("levelCurMax", levelCurMax);
+        
         ///读取离线时间
         loginHour = PlayerPrefs.GetInt("loginHour", loginHour);
         loginMinute = PlayerPrefs.GetInt("loginMinute", loginMinute);
@@ -125,8 +125,6 @@ public class LocalData
             }
         }
         playTimePerDay++;
-        //测试内容
-        Gold = 999999;
     }
 
     //==================================================set-get================================================================

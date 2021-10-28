@@ -74,6 +74,105 @@ public class GameSp : MonoBehaviour
                     case 6: indexLine = 13; break;
                 }
                 break;
+            case 36:
+                switch (ID)
+                {
+                    case 0: indexLine = 8; break;
+                    case 1: indexLine = 1; break;
+                    case 2: indexLine = 4; break;
+                    case 3: indexLine = 11; break;
+                    case 4: indexLine = 7; break;
+                    case 5: indexLine = 12; break;
+                }
+                break;
+            case 37:
+                switch (ID)
+                {
+                    case 0: indexLine = 0; break;
+                    case 1: indexLine = 1; break;
+                    case 2: indexLine = 12; break;
+                    case 3: indexLine = 18; break;
+                    case 4: indexLine = 11; break;
+                    case 5: indexLine = 3; break;
+                    case 6: indexLine = 6; break;
+                    case 7: indexLine = 22; break;
+                }
+                break;
+            case 38:
+                switch (ID)
+                {
+                    case 0: indexLine = 7; break;
+                    case 1: indexLine = 9; break;
+                    case 2: indexLine = 12; break;
+                    case 3: indexLine = 13; break;
+                    case 4: indexLine = 14; break;
+                    case 5: indexLine = 1; break;
+                    case 6: indexLine = 2; break;
+                    case 7: indexLine = 3; break;
+                    case 8: indexLine = 4; break;
+                    case 9: indexLine = 5; break;
+                }
+                break;
+            case 39:
+                switch (ID)
+                {
+                    case 0: indexLine =10; break;
+                    case 1: indexLine = 11; break;
+                    case 2: indexLine = 3; break;
+                    case 3: indexLine = 4; break;
+                    case 4: indexLine = 15; break;
+                }
+                break;
+            case 42:
+                switch (ID)
+                {
+                    case 0: indexLine = 0; break;
+                    case 1: indexLine = 8; break;
+                    case 2: indexLine = 9; break;
+                    case 3: indexLine = 6; break;
+                    case 4: indexLine = 15; break;
+                    case 5: indexLine = 17; break;
+                }
+                break;
+            case 44:
+                switch (ID)
+                {
+                    case 0: indexLine = 6; break;
+                    case 1: indexLine = 7; break;
+                    case 2: indexLine = 11; break;
+                    case 3: indexLine = 12; break;
+                    case 4: indexLine = 14; break;
+                    case 5: indexLine = 13; break;
+                    case 6: indexLine = 15; break;
+                    case 7: indexLine = 18; break;
+                    case 8: indexLine = 5; break;
+                    case 9: indexLine = 21; break;
+                    case 10: indexLine = 23; break;
+                }
+                break;
+            case 45:
+                switch (ID)
+                {
+                    case 0: indexLine = 9; break;
+                    case 1: indexLine = 5; break;
+                    case 2: indexLine = 17; break;
+                    case 3: indexLine = 10; break;
+                }
+                break;
+            case 46:
+                switch (ID)
+                {
+                    case 0: indexLine = 32; break;
+                    case 1: indexLine = 54; break;
+                }
+                break;
+            case 47:
+                switch (ID)
+                {
+                    case 0: indexLine = 20; break;
+                    case 1: indexLine = 26; break;
+                }
+                break;
         }
     }
 
@@ -134,6 +233,9 @@ public class GameSp : MonoBehaviour
 
         if (indexLine != -1)
         {
+            Debug.Log(ID + "  SPSPSPSPSP line id = "+ indexLine+"----"+
+                GameController.GetInstance().stateLine[indexLine]);
+
             if (GameController.GetInstance().stateLine[indexLine] == 1)
             {
                 _numLj++;

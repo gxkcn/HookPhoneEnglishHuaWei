@@ -48,7 +48,9 @@ public class GameMapBase : MonoBehaviour
         {
             case "btnCicle": objChild[_index].GetComponent<GameButtonCicle>().InitData(); break;
             case "lineBoldParent": objChild[_index].GetComponent<GameLineBlodParent>().InitData(); break;
-            case "db": objChild[_index].GetComponent<GameDb>().InitData(); GameController.GetInstance().totalHideDbNum++; break;            
+            case "db": objChild[_index].GetComponent<GameDb>().InitData();
+                GameController.GetInstance().totalHideDbNum++;
+                break;            
             case "line": objChild[_index].GetComponent<GameLine>().InitData(); break;
             case "btnLj0": objChild[_index].GetComponent<GameButtonLj0>().InitData(); break;
             case "btnLj1": objChild[_index].GetComponent<GameButtonLj1>().InitData(); break;

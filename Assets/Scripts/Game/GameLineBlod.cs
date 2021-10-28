@@ -54,7 +54,7 @@ public class GameLineBlod : MonoBehaviour
                         if (isHit == false)
                         {
                             isHit = true;
-                            ViewController.GetInstance().game.GetComponent<ViewGame>().LifeSubtract();
+                            //ViewController.GetInstance().game.GetComponent<ViewGame>().LifeSubtract();
                         }
                     }
                 }

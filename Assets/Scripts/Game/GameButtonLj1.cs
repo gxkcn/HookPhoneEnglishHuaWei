@@ -47,10 +47,81 @@ public class GameButtonLj1 : MonoBehaviour
                     case 1: indexLineArr = new int[] { 6,3,2,7 }; state = 0; break;
                 }
                 break;
+            case 18:
+                switch (ID)
+                {
+                    case 0: indexLineArr = new int[] { -1,0,-1,3 }; state = 1; break;
+                    case 1: indexLineArr = new int[] { -1,2, -1, 4 }; state = 0; break;
+                }
+                break;
+            case 19:
+                switch (ID)
+                {
+                    case 0: indexLineArr = new int[] {4,0,1,6  }; state = 1; break;
+                    case 1: indexLineArr = new int[] { 5,6,7,8 }; state = 0; break;
+                    case 2: indexLineArr = new int[] { 7,2,3,9 }; state = 0; break;
+                }
+                break;
+            case 20:
+                switch (ID)
+                {
+                    case 0: indexLineArr = new int[] { 3, 0, 6, 8 };state = 0; break;
+                    case 1: indexLineArr = new int[] { 7, 1, 5, 10 }; state = 0; break;
+                    case 2: indexLineArr = new int[] { 2, 8, 11, 14 }; state = 1; break;
+                    case 3: indexLineArr = new int[] { 12, 10, 4, 15 }; state = 1; break;
+                }
+                break;
+            case 26:
+                switch (ID)
+                {
+                    case 0: indexLineArr = new int[] {-1,8,4,11 }; state = 1; break;
+                    case 1: indexLineArr = new int[] {4,9,5,12 }; state = 0; break;
+                }
+                break;
+            case 28:
+                switch (ID)
+                {
+                    case 0: indexLineArr = new int[] {0,-1,5,-1  }; state = 0; break;
+                }
+                break;
+            case 31:
+                switch (ID)
+                {
+                    case 0: indexLineArr = new int[] { 16,-1,17,-1 }; state = 1; break;
+                    case 1: indexLineArr = new int[] { 20,-1,21,-1 }; state = 1; break;
+                }
+                break;
             case 35:
                 switch (ID)
                 {
                     case 0: indexLineArr = new int[] { 10,7,11,13 }; state = 1; break;
+                }
+                break;
+            case 37:
+                switch (ID)
+                {
+                    case 0: indexLineArr = new int[] {-1,13,-1,14 }; state = 1; break;
+                    case 1: indexLineArr = new int[] {21,-1,22,-1 }; state = 0; break;
+                }
+                break;
+            case 43:
+                switch (ID)
+                {
+                    case 0: indexLineArr = new int[] { 5,22,15,9}; state = 0; break;
+                }
+                break;
+            case 44:
+                switch (ID)
+                {
+                    case 0: indexLineArr = new int[] {16,-1,17,-1 }; state = 0; break;
+                    case 1: indexLineArr = new int[] {20,22,23,24 }; state = 1; break;
+                }
+                break;
+            case 46:
+                switch (ID)
+                {
+                    case 0: indexLineArr = new int[] { 31,53,33,9}; state = 0; break;
+                    case 1: indexLineArr = new int[] {37,10,11,38 }; state = 0; break;
                 }
                 break;
         }
@@ -115,6 +186,8 @@ public class GameButtonLj1 : MonoBehaviour
     {
         if (isJh == false)
         {
+            //gameObject.transform.localScale = Vector3.one * 1.2f;
+            Debug.Log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>LJ< 1 >被激活 " + ID);
             isJh = true;
             if (indexLine0 != -1)
             {
@@ -143,6 +216,7 @@ public class GameButtonLj1 : MonoBehaviour
 
     public void SetJhFalse()
     {
+        gameObject.transform.localScale = Vector3.one;
         isJh = false;
     }
 
@@ -166,36 +240,36 @@ public class GameButtonLj1 : MonoBehaviour
     public void ExamineHide()
     {
         int _numLj = 0;
-
+        Debug.Log("LJ 1 检测num "+ID + indexLineArr[0]+" " + indexLineArr[1] + " " + indexLineArr[2] + " " + indexLineArr[3]);
         if (indexLineArr[0] != -1)
         {
-            if (GameController.GetInstance().stateDb[indexLineArr[0]] == 1)
+            if (GameController.GetInstance().stateLine[indexLineArr[0]] == 1)
             {
                 _numLj++;
             }
         }
         if (indexLineArr[1] != -1)
         {
-            if (GameController.GetInstance().stateDb[indexLineArr[1]] == 1)
+            if (GameController.GetInstance().stateLine[indexLineArr[1]] == 1)
             {
                 _numLj++;
             }
         }
         if (indexLineArr[2] != -1)
         {
-            if (GameController.GetInstance().stateDb[indexLineArr[2]] == 1)
+            if (GameController.GetInstance().stateLine[indexLineArr[2]] == 1)
             {
                 _numLj++;
             }
         }
         if (indexLineArr[3] != -1)
         {
-            if (GameController.GetInstance().stateDb[indexLineArr[3]] == 1)
+            if (GameController.GetInstance().stateLine[indexLineArr[3]] == 1)
             {
                 _numLj++;
             }
         }
-
+        Debug.Log("LJ 1 检测num " + ID + "===="+_numLj);
         //检测结束判断是否需要隐藏
         if (_numLj <= 1)
         {

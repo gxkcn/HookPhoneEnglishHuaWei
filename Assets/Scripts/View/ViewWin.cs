@@ -39,8 +39,13 @@ public class ViewWin : MonoBehaviour
         textTitle.text = type == 1 ? "Game Win" : "Game Lose";
         textTime.text = "Time: " + (int)ViewController.GetInstance().game.GetComponent<ViewGame>().timePlay + " S";
         textButton0.text = type == 0 ? "Replay" : "Continue";
+                
         if (type == 1)
         {
+            if(GameController.GetInstance().currentLevel == 49)
+            {
+                textButton0.text ="Replay" ;
+            }
             int _time = (int)ViewController.GetInstance().game.GetComponent<ViewGame>().timePlay;
             int _timeMin = 10+GameController.GetInstance().currentLevel*5;
             numStar = 1;

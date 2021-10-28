@@ -23,6 +23,7 @@ public class ViewGame : MonoBehaviour
 
     public int numLife;
     public Image[] imageLife;
+    public bool isHit;
 
     public GameMapControl mapCon;
 
@@ -31,7 +32,6 @@ public class ViewGame : MonoBehaviour
     void Start()
     {
         buttonPause.onClick.AddListener(ClickPause);
-        InitGame();
     }
 
     /// <summary>
@@ -39,7 +39,6 @@ public class ViewGame : MonoBehaviour
     /// </summary>
     public void InitGame()
     {
-        GameController.GetInstance().currentLevel = 13;
         Debug.Log("ViewGame InitGame");
         SetGameState(GameState.GamePlay);
         timeWait = 0;
@@ -50,7 +49,7 @@ public class ViewGame : MonoBehaviour
         imageLife[0].gameObject.SetActive(false);
         imageLife[1].gameObject.SetActive(false);
         imageLife[2].gameObject.SetActive(false);
-        if (GameController.GetInstance().currentLevel >= 40)
+        if (GameController.GetInstance().currentLevel >= 39)
         {
             numLife = 3;
             for (int i = 0; i < numLife; i++)
@@ -58,6 +57,7 @@ public class ViewGame : MonoBehaviour
                 imageLife[i].gameObject.SetActive(true);
             }
         }
+        isHit = false;
 
         GameController.GetInstance().playLevelTimes[GameController.GetInstance().currentLevel]++;
         mapCon.InitData();
@@ -198,16 +198,30 @@ public class ViewGame : MonoBehaviour
     /// 生命减少
     /// </summary>
     public void LifeSubtract()
-    {        
-        //numLife--;
-        //for (int i = 0; i < numLife; i++)
-        //{
-        //    imageLife[i].gameObject.SetActive(true);
-        //}
-        //if (numLife < 0)
-        //{
-        //    SetGameState(GameState.GameLose);
-        //}
+    {
+        Debug.Log(isHit+"life subtract-------------------------------------------------" + numLife);
+        if (isHit==false)
+        {
+            isHit = true;
+            numLife--;
+            imageLife[0].gameObject.SetActive(false);
+            imageLife[1].gameObject.SetActive(false);
+            imageLife[2].gameObject.SetActive(false);
+            for (int i = 0; i < numLife; i++)
+            {
+                imageLife[i].gameObject.SetActive(true);
+            }
+            if (numLife <= 0)
+            {
+                SetGameState(GameState.GameLose);
+            }
+            Invoke("ResetHit", 0.1f);
+        }        
+    }
+
+    private void ResetHit()
+    {
+        isHit = false;
     }
 
     //=======================================================function==================================================
