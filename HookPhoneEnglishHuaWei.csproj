@@ -146,6 +146,7 @@
     <Compile Include="Assets\Scripts\Game\GameMapBase.cs" />
     <Compile Include="Assets\Scripts\Game\GameMapControl.cs" />
     <Compile Include="Assets\Scripts\Game\GameSp.cs" />
+    <Compile Include="Assets\Scripts\TipsHand.cs" />
     <Compile Include="Assets\Scripts\Utils\BoxOutline.cs" />
     <Compile Include="Assets\Scripts\Utils\CircleOutline.cs" />
     <Compile Include="Assets\Scripts\Utils\JoystickPanel.cs" />

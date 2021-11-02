@@ -73,7 +73,11 @@ public class ViewWin : MonoBehaviour
                     LocalData.GetInstance().levelCurMax = 50;
                 }
             }
-        }
+        }else{
+imageStar0.gameObject.SetActive(false);
+            imageStar1.gameObject.SetActive(false);
+            imageStar2.gameObject.SetActive(false);
+}
         objRect.transform.localScale = Vector3.one * .2f;
         LeanTween.scale(objRect, Vector3.one, 0.2f).setLoopCount(1);
         //保存本地数据
